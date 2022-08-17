@@ -36,6 +36,7 @@ void setup_wifi() {
 
 void reconnect() {
     while (!client.connected()) {
+        setup_wifi();
         Serial.print("Attempting MQTT connection...");
         String clientId = "ESP8266Client-";
         clientId += String(random(0xffff), HEX);
@@ -71,6 +72,7 @@ void loop() {
     client.publish(temperatureTopic, temperature.c_str());
     client.publish(humidityTopic, humidity.c_str());
     client.publish(stateTopic, "1", true);
+    client.publish(rssiTopic, String(WiFi.RSSI()).c_str());
 
     delay(5000);
 }
